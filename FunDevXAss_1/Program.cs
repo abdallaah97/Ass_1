@@ -1,46 +1,59 @@
-﻿Console.WriteLine("Enter Cutomer Type (Regular, Silver, Gold): ");
-string customerType = Console.ReadLine();
+﻿//User enter tow inputs (name , age (nullable))
+//if name length less than 2 characters, print "Invalid name"
+//if name length eqaul 2 characters, print "name (Too Short)"
+//if age is null, print "Age is not provided"
+//if age is less than 18, print "Young"
+//if age is 18 or above, print "Adult"
 
-Console.WriteLine("Enter Bill Amount: ");
-double billAmount = Convert.ToDouble(Console.ReadLine());
+//Final result exapmles
 
-double baseDiscountRate = 0;
-double extraDiscountRate = 0;
+// Input: name = "A", age = 25
+// Output: "Invalid name, Adult"
 
-switch (customerType.ToLower())
+// Input: name = "My", age = 25
+// Output: "My (Too Short), Adult"
+
+// Input: name = "My", age = null
+// Output: "My (Too Short), Age is not provided"    
+
+// Input: name = "Abdallah", age = 16
+// Output: "Abdallah, Young"
+
+Console.WriteLine("Enter your name:");
+string name = Console.ReadLine();
+Console.WriteLine("Enter your age:");
+string ageInput = Console.ReadLine();
+int? age = string.IsNullOrEmpty(ageInput) ? null : Convert.ToInt16(ageInput.Trim());
+
+string result = "";
+
+if (string.IsNullOrEmpty(name) || name.Length < 2)
 {
-    case "gold":
-        baseDiscountRate = 0.20;
-        extraDiscountRate = 0.05;
-        break;
-
-    case "silver":
-        baseDiscountRate = 0.10;
-        extraDiscountRate = 0.03;
-        break;
-
-    case "regular":
-        baseDiscountRate = 0.05;
-        extraDiscountRate = 0.02;
-        break;
-    default:
-        Console.WriteLine("Unknown Client");
-        return;
-
+    result = "Invalid name, ";
 }
-double baseDiscount = billAmount * baseDiscountRate;
-double extraDiscount = 0;
-
-if (billAmount > 100)
+else if(name.Length == 2)
 {
-    extraDiscount = billAmount * extraDiscountRate;
+    result = $"{name} (Too Short), ";
+}
+else
+{
+    result = $"{name}, ";
 }
 
-//total discount
-double totalDiscount = baseDiscount + extraDiscount;
-//final price
-double finalPrice = billAmount - totalDiscount;
-//show results
-Console.WriteLine("Results");
-Console.WriteLine($"Total Discount: {totalDiscount} JD");
-Console.WriteLine($"Final Price: {finalPrice} JD");
+if (age != null)
+{
+    if (age < 18)
+    {
+        result = $"{result} Young";
+    }
+    else
+    {
+        result = $"{result} Adult";
+    }
+}
+else
+{
+    result = $"{result} Age is not provided";
+}
+
+Console.WriteLine(result);
